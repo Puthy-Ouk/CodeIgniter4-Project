@@ -10,15 +10,16 @@
   <div class="row">
     <div class="col-12">
 
-      <?php if(session()->get('success')) :?>
+      <?php if(session()->get('success')): ?>
         <div class="alert alert-success" role="alert"> <?= session()->get('success') ?></div>
      <?php endif; ?>
      
     </div>
   </div>
   </div>
+  
   <div class="auth__body">
-    <form class="auth__form" autocomplete="off" action="/Pizzas" method="post">
+    <form class="auth__form" autocomplete="off" action="/" method="post">
       <div class="auth__form_body">
         <h3 class="auth__form_title">Peperoni App</h3>
         <div>
@@ -39,8 +40,9 @@
 
 
         <?php if(isset($validation)):?>
+
           <div class="alert alert-danger" role="alert">
-              <?= $validation->listErrors()?>
+              <?= $validation->listErrors() ?>
           </div>
         <?php endif;?>
 

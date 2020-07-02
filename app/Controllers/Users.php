@@ -7,6 +7,7 @@ class Users extends BaseController
 		helper(['form']);
 		$data = [];
 		if($this->request->getMethod() == "post"){
+
 			$rules = [
 				'email' => 'required|valid_email',
 				'password' => 'required|validateUser[email,password]',
@@ -18,7 +19,7 @@ class Users extends BaseController
 				]
 			];
 
-			if(!$this->validate($rules,$errors)){
+			if(! $this->validate($rules,$errors)){
 				$data['validation'] = $this->validator;
 	
 			}else{
@@ -28,16 +29,18 @@ class Users extends BaseController
 				$user = $model->where('password',$this->request->getVar('password'))
 							  ->first();
 				$this->setUserSession($user);
-			
-				return redirect()->to('Pizza');
+				return redirect()->to('/pizza');
+				//return view('auths/login',$data);
+				
 			}
-
+			
 		}
+		
 		return view('auths/login',$data);
 		//return view('auths/login');
 	}
 
-	public function setUserSession($user){
+	private function setUserSession($user){
 		$data = [
 			'id' => $user['id'],
 			'email' => $user['email'],
@@ -67,8 +70,8 @@ class Users extends BaseController
 		helper(['form']);
 		if($this->request->getMethod() == "post"){
 			$rules = [
-				'email' => 'required|valid_email',
-				'password' => 'required',
+				'email' => 'required|valid_email|is_unique[user.email]',
+				'password' => 'required|max_length[5]|min_length[3]',
 				'address' => 'required',
 				
 			];

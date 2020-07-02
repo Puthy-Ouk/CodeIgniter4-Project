@@ -43,13 +43,24 @@ $routes->setAutoRoute(true);
 	$routes->get('signout', 'Users::singOut');
 	$routes->match(['get','post'],'/signout', 'Users::register');
 	//$routes->get('dashboard','Users::index',['filter' => 'auth']);
+	//$routes->add('/loginApp','Pizzas::index',['filter' => 'auth']);
 
 
-	$routes->get('pizza','Pizzas::index');
-	$routes->add('/addPizza','Pizzas::addPizza');
-	// $routes->add('edit/(:num)', 'Pizzas::showFormEdit/$1');
-	// $routes->add('/update', 'Pizzas::updatePizza');
+	$routes->get('/pizza','Pizzas::index');
+	$routes->add('pizza/addPizza','Pizzas::addPizza');
+	$routes->add('edit/(:num)', 'Pizzas::editPizza/$1');
+	$routes->add('pizza/update', 'Pizzas::updatePizza');
 	$routes->add('/delectPizza/(:num)','Pizzas::delectPizza/$1');
+	
+// 	$routes->group('pizzas', function($routes)
+// {
+// 	$routes->add('/','Pizzas::index');
+// 	$routes->add('add','Pizzas::addPizza');
+// 	$routes->add('update','Pizzas::updatePizza');
+// 	$routes->add('delete/(:num)','Pizzas::deletePizza/$1');
+// 	$routes->add('edit/(:num)','Pizzas::editPizza/$1');
+
+// });
 	
 
 /**

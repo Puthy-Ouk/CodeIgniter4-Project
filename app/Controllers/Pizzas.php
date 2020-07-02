@@ -2,15 +2,14 @@
 use App\Models\PizzaModel;
 class Pizzas extends BaseController
 {
+	
 	public function index()
-	{
+	{	
 		$pizza = new PizzaModel();
 		$data['pizzas'] = $pizza->findAll();
 		return view('/index',$data);
 	}
-
-	//--------------------------------------------------------------------
-
+	// add pizza to table pizza
 	public function addPizza()
 	{
 		$data = [];
@@ -20,11 +19,11 @@ class Pizzas extends BaseController
 			$rules = [
 				'name' => 'required',
 				'ingredients' => 'required',
-				'price' => 'required'
+				'price' => 'required|max_length[50]|min_length[1]'
 			];
 			if(!$this->validate($rules)){
 				$data['validation'] = $this->validator;
-				//return view('/index',$data);
+				return redirect()->to('/pizza');
 			}else{
 				$pizza = new PizzaModel();
 
@@ -41,32 +40,30 @@ class Pizzas extends BaseController
 			}
 
 		}
+		return view('index',$data);
 	}
 
-	//--------------------------------------------------------------------
-	
+	// edit pizza data
+	public function editPizza($id)
+	{
+		$pizza = new PizzaModel();
+		$data['pizza'] = $pizza->find($id);
+		return view('index',$data);
+	}
+
+
+		// update piza data
+	public function updatePizza(){
+		$pizza = new PizzaModel();
+		$pizza->update($_POST['id'], $_POST);
+		return redirect()->to('/pizza');
+	}
+
+	// delete pizza data from table pizza
 	public function delectPizza($id)
 	{
         $pizza = new PizzaModel();
         $pizza->delete($id);
-		return redirect()->to('/pizzas');
+		return redirect()->to('/pizza');
 	}
-
-	// public function showFormEdit($id)
-	// {
-	// 	$pizza = new PizzaModel();
-	// 	$data['pizza'] = $pizza->find($id);
-	// 	return view('Pizzas/update',$data);
-	// }
-
-	// //--------------------------------------------------------------------
-	
-	// public function updatePizza()
-	// {
-	// 	$pizza = new PizzaModel();
-	// 	$pizza->update($_POST['id'],$_POST);
-	// 	return redirect()->to('/pizza');
-
-	// }
-
 }
